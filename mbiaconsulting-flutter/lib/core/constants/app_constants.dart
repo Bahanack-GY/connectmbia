@@ -15,6 +15,6 @@ class AppConstants {
 
   static const int _port = 3000;
 
-  static const String baseUrl = 'http://$_host:$_port/api';
-  static const String socketUrl = 'http://$_host:$_port';
+  static const String baseUrl = 'https://$_host/api';
+  static const String socketUrl = 'https://$_host';
 }
