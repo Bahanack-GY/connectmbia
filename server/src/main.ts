@@ -28,7 +28,13 @@ async function bootstrap() {
     }),
   );
 
-  app.enableCors({ origin: '*', credentials: true });
+  app.enableCors({
+    origin: [
+      'https://connectmbiabeta.mylisapp.online',
+      'https://connectmbiabeta-admin.mylisapp.online',
+    ],
+    credentials: true,
+  });
 
   const port = process.env.PORT ?? 3000;
 
