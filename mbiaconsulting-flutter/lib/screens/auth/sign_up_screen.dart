@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/providers/auth_provider.dart';
 
@@ -23,6 +25,8 @@ class _SignUpScreenState extends State<SignUpScreen>
   bool _obscureConfirm = true;
   bool _isLoading = false;
   bool _acceptTerms = false;
+  String? _completePhoneNumber;
+  String? _selectedCountry = 'Cameroon';
   late AnimationController _animController;
   late Animation<double> _fadeAnim;
   late Animation<Offset> _slideAnim;
@@ -58,8 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen>
     if (!_acceptTerms) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            "Veuillez accepter les conditions d'utilisation.",
+          content: Text("Veuillez accepter les conditions d'utilisation.".tr(),
             style: GoogleFonts.inter(),
           ),
           backgroundColor: Colors.redAccent,
@@ -71,13 +74,28 @@ class _SignUpScreenState extends State<SignUpScreen>
       return;
     }
 
+    if (_completePhoneNumber == null || _phoneController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text( 'Veuillez entrer un numéro de téléphone valide.'.tr(),
+            style: GoogleFonts.inter(),
+          ),
+          backgroundColor: Colors.redAccent,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+      );
+      return;
+    }
+
     setState(() => _isLoading = true);
     try {
       await context.read<AuthProvider>().signUp(
             name: _nameController.text.trim(),
             email: _emailController.text.trim(),
             password: _passwordController.text,
-            phone: _phoneController.text.trim(),
+            phone: _completePhoneNumber!,
+            country: _selectedCountry ?? 'Cameroon',
           );
       // Consumer in main.dart redirects automatically on successful auth
     } catch (e) {
@@ -145,8 +163,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                         ),
                       ),
                       const SizedBox(height: 28),
-                      Text(
-                        'Créer un compte',
+                      Text( 'Créer un compte'.tr(),
                         style: GoogleFonts.inter(
                           color: Colors.white,
                           fontSize: 28,
@@ -155,8 +172,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                         ),
                       ),
                       const SizedBox(height: 6),
-                      Text(
-                        "Rejoignez l'univers Stéphane Mbia Consulting",
+                      Text("Rejoignez l'univers Stéphane Mbia Consulting".tr(),
                         style: GoogleFonts.inter(
                           color: Colors.white60,
                           fontSize: 13,
@@ -192,47 +208,99 @@ class _SignUpScreenState extends State<SignUpScreen>
                             children: [
                               _AuthField(
                                 controller: _nameController,
-                                label: 'Nom complet',
-                                hint: 'Jean Dupont',
+                                label: 'Nom complet'.tr(),
+                                hint: 'Jean Dupont'.tr(),
                                 icon: Icons.person_outline,
                                 maxLength: 100,
                                 validator: (v) {
-                                  if (v == null || v.trim().isEmpty) return 'Veuillez saisir votre nom';
-                                  if (v.trim().length < 2) return 'Le nom doit contenir au moins 2 caractères';
+                                  if (v == null || v.trim().isEmpty) return 'Veuillez saisir votre nom'.tr();
+                                  if (v.trim().length < 2) return 'Le nom doit contenir au moins 2 caractères'.tr();
                                   return null;
                                 },
                               ),
                               const SizedBox(height: 16),
                               _AuthField(
                                 controller: _emailController,
-                                label: 'Adresse e-mail',
-                                hint: 'exemple@email.com',
+                                label: 'Adresse e-mail'.tr(),
+                                hint: 'exemple@email.com'.tr(),
                                 icon: Icons.email_outlined,
                                 keyboardType: TextInputType.emailAddress,
                                 maxLength: 100,
                                 validator: (v) {
                                   if (v == null || v.trim().isEmpty) {
-                                    return 'Veuillez saisir votre e-mail';
+                                    return 'Veuillez saisir votre e-mail'.tr();
                                   }
                                   final emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
-                                  if (!emailRegex.hasMatch(v.trim())) return 'E-mail invalide';
+                                  if (!emailRegex.hasMatch(v.trim())) return 'E-mail invalide'.tr();
                                   return null;
                                 },
                               ),
                               const SizedBox(height: 16),
-                              _AuthField(
-                                controller: _phoneController,
-                                label: 'Téléphone (optionnel)',
-                                hint: '+237 6XX XXX XXX',
-                                icon: Icons.phone_outlined,
-                                keyboardType: TextInputType.phone,
-                                maxLength: 20,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text( 'Téléphone'.tr(),
+                                    style: GoogleFonts.inter(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppTheme.textDark,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  IntlPhoneField(
+                                    controller: _phoneController,
+                                    decoration: InputDecoration(
+                                      hintText: 'Numéro de téléphone'.tr(),
+                                      counterText: '',
+                                      hintStyle: GoogleFonts.inter(
+                                        fontSize: 14,
+                                        color: AppTheme.textGrey.withValues(alpha: 0.6),
+                                      ),
+                                      filled: true,
+                                      fillColor: AppTheme.paleBlue,
+                                      contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                        vertical: 16,
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(14),
+                                        borderSide: const BorderSide(color: AppTheme.borderColor),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(14),
+                                        borderSide: const BorderSide(color: AppTheme.borderColor),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(14),
+                                        borderSide: const BorderSide(color: AppTheme.primaryBlue, width: 1.6),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(14),
+                                        borderSide: const BorderSide(color: Colors.redAccent),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(14),
+                                        borderSide: const BorderSide(color: Colors.redAccent, width: 1.6),
+                                      ),
+                                    ),
+                                    initialCountryCode: 'CM',
+                                    onChanged: (phone) {
+                                      _completePhoneNumber = phone.completeNumber;
+                                    },
+                                    onCountryChanged: (country) {
+                                      _selectedCountry = country.name;
+                                    },
+                                    style: GoogleFonts.inter(fontSize: 14, color: AppTheme.textDark),
+                                    dropdownTextStyle: GoogleFonts.inter(fontSize: 14, color: AppTheme.textDark),
+                                    invalidNumberMessage: 'Numéro de téléphone invalide'.tr(),
+                                  ),
+                                ],
                               ),
                               const SizedBox(height: 16),
                               _AuthField(
                                 controller: _passwordController,
-                                label: 'Mot de passe',
-                                hint: '••••••••',
+                                label: 'Mot de passe'.tr(),
+                                hint: '••••••••'.tr(),
                                 icon: Icons.lock_outline,
                                 obscureText: _obscurePassword,
                                 maxLength: 128,
@@ -249,17 +317,17 @@ class _SignUpScreenState extends State<SignUpScreen>
                                 ),
                                 validator: (v) {
                                   if (v == null || v.isEmpty) {
-                                    return 'Veuillez saisir un mot de passe';
+                                    return 'Veuillez saisir un mot de passe'.tr();
                                   }
-                                  if (v.length < 6) return 'Minimum 6 caractères';
+                                  if (v.length < 6) return 'Minimum 6 caractères'.tr();
                                   return null;
                                 },
                               ),
                               const SizedBox(height: 16),
                               _AuthField(
                                 controller: _confirmPasswordController,
-                                label: 'Confirmer le mot de passe',
-                                hint: '••••••••',
+                                label: 'Confirmer le mot de passe'.tr(),
+                                hint: '••••••••'.tr(),
                                 icon: Icons.lock_outline,
                                 obscureText: _obscureConfirm,
                                 maxLength: 128,
@@ -276,10 +344,10 @@ class _SignUpScreenState extends State<SignUpScreen>
                                 ),
                                 validator: (v) {
                                   if (v == null || v.isEmpty) {
-                                    return 'Veuillez confirmer le mot de passe';
+                                    return 'Veuillez confirmer le mot de passe'.tr();
                                   }
                                   if (v != _passwordController.text) {
-                                    return 'Les mots de passe ne correspondent pas';
+                                    return 'Les mots de passe ne correspondent pas'.tr();
                                   }
                                   return null;
                                 },
@@ -369,8 +437,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            Text(
-                                              'Créer mon compte',
+                                            Text( 'Créer mon compte'.tr(),
                                               style: GoogleFonts.inter(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w700,
@@ -392,8 +459,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(
-                              'Déjà un compte ? ',
+                            Text( 'Déjà un compte ? '.tr(),
                               style: GoogleFonts.inter(
                                 color: Colors.white70,
                                 fontSize: 14,
@@ -401,8 +467,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                             ),
                             GestureDetector(
                               onTap: () => Navigator.pop(context),
-                              child: Text(
-                                'Se connecter',
+                              child: Text( 'Se connecter'.tr(),
                                 style: GoogleFonts.inter(
                                   color: AppTheme.goldAccent,
                                   fontSize: 14,

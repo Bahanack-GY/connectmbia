@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/theme/app_theme.dart';
@@ -49,7 +50,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
     return Scaffold(
       backgroundColor: AppTheme.obsidian,
       appBar: AppBar(
-        title: const Text('Mes Rendez-vous'),
+        title: Text('Mes Rendez-vous'.tr()),
         backgroundColor: AppTheme.surface,
         foregroundColor: Colors.white,
         elevation: 0,
@@ -82,7 +83,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
               OutlinedButton.icon(
                 onPressed: _loadAppointments,
                 icon: const Icon(Icons.refresh),
-                label: const Text('Réessayer'),
+                label: Text('Réessayer'.tr()),
               ),
             ],
           ),
@@ -110,16 +111,14 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                 ),
               ),
               const SizedBox(height: 24),
-              const Text(
-                'Aucun rendez-vous',
+              Text('Aucun rendez-vous'.tr(),
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.white),
               ),
               const SizedBox(height: 8),
-              const Text(
-                'Vos rendez-vous confirmés apparaîtront ici.',
+              Text('Vos rendez-vous confirmés apparaîtront ici.'.tr(),
                 textAlign: TextAlign.center,
                 style: TextStyle(color: AppTheme.textMuted),
               ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -70,8 +71,7 @@ class AppTheme {
   static void showComingSoon(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          'Bientôt disponible',
+        content: Text( 'Bientôt disponible'.tr(),
           style: GoogleFonts.inter(color: Colors.white),
         ),
         backgroundColor: surface,

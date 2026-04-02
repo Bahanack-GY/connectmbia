@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -39,8 +40,7 @@ class _DiscussionsListScreenState extends State<DiscussionsListScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'MESSAGERIE',
+                Text( 'MESSAGERIE'.tr(),
                   style: GoogleFonts.inter(
                     color: AppTheme.textMuted.withValues(alpha: 0.7),
                     fontSize: 9,
@@ -49,8 +49,7 @@ class _DiscussionsListScreenState extends State<DiscussionsListScreen> {
                   ),
                 ),
                 const SizedBox(height: 6),
-                Text(
-                  'Discussions',
+                Text( 'Discussions'.tr(),
                   style: GoogleFonts.playfairDisplay(
                     color: Colors.white,
                     fontSize: 30,
@@ -119,7 +118,7 @@ class _DiscussionsListScreenState extends State<DiscussionsListScreen> {
         builder: (_) => ChatDetailScreen(
           conversationId: conv.id,
           title: conv.displayTitle,
-          status: conv.isActive ? 'En ligne' : 'Hors ligne',
+          status: conv.isActive ? 'En ligne'.tr() : 'Hors ligne'.tr(),
         ),
       ),
     ).then((_) => context.read<ChatProvider>().loadConversations());
@@ -234,7 +233,7 @@ class _ConversationCard extends StatelessWidget {
                         Expanded(
                           child: Text(
                             conversation.lastMessage.isEmpty
-                                ? 'Démarrez la conversation...'
+                                ? 'Démarrez la conversation...'.tr()
                                 : conversation.lastMessage,
                             style: GoogleFonts.inter(
                               fontSize: 13,
@@ -310,8 +309,7 @@ class _EmptyState extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            Text(
-              'Aucune discussion',
+            Text( 'Aucune discussion'.tr(),
               style: GoogleFonts.playfairDisplay(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
@@ -319,8 +317,7 @@ class _EmptyState extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            Text(
-              'Soumettez une consultation pour démarrer\nune discussion avec notre équipe.',
+            Text( 'Soumettez une consultation pour démarrer\nune discussion avec notre équipe.'.tr(),
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
                 color: AppTheme.textMuted,
@@ -348,8 +345,7 @@ class _EmptyState extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      'Soumettre une consultation',
+                    Text( 'Soumettre une consultation'.tr(),
                       style: GoogleFonts.inter(
                         color: const Color(0xFF080C18),
                         fontSize: 14,
@@ -422,8 +418,7 @@ class _ErrorState extends StatelessWidget {
                   children: [
                     const Icon(Icons.refresh_rounded, color: AppTheme.textMuted, size: 16),
                     const SizedBox(width: 8),
-                    Text(
-                      'Réessayer',
+                    Text( 'Réessayer'.tr(),
                       style: GoogleFonts.inter(
                         color: AppTheme.textMuted,
                         fontSize: 14,

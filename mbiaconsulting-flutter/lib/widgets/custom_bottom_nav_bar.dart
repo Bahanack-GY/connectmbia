@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../core/theme/app_theme.dart';
@@ -44,14 +45,14 @@ class CustomBottomNavBar extends StatelessWidget {
                   _NavItem(
                     activeIcon: Icons.home_rounded,
                     inactiveIcon: Icons.home_outlined,
-                    label: 'Accueil',
+                    label: 'Accueil'.tr(),
                     isSelected: currentIndex == 0,
                     onTap: () => onTap(0),
                   ),
                   _NavItem(
                     activeIcon: Icons.chat_bubble_rounded,
                     inactiveIcon: Icons.chat_bubble_outline_rounded,
-                    label: 'Discussions',
+                    label: 'Discussions'.tr(),
                     isSelected: currentIndex == 1,
                     onTap: () => onTap(1),
                     badgeCount: 2,
@@ -59,7 +60,7 @@ class CustomBottomNavBar extends StatelessWidget {
                   _NavItem(
                     activeIcon: Icons.person_rounded,
                     inactiveIcon: Icons.person_outline_rounded,
-                    label: 'Profil',
+                    label: 'Profil'.tr(),
                     isSelected: currentIndex == 2,
                     onTap: () => onTap(2),
                   ),
@@ -125,8 +126,7 @@ class _NavItem extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: Center(
-                        child: Text(
-                          '$badgeCount',
+                        child: Text( '$badgeCount'.tr(),
                           style: const TextStyle(
                             color: AppTheme.obsidian,
                             fontSize: 9,

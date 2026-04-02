@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -72,8 +73,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     return Scaffold(
       backgroundColor: AppTheme.obsidian,
       appBar: AppBar(
-        title: Text(
-          'Notifications',
+        title: Text( 'Notifications'.tr(),
           style: GoogleFonts.inter(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -252,8 +252,8 @@ class _NotificationCard extends StatelessWidget {
                       const SizedBox(width: 4),
                       Text(
                         notification.isAppointment
-                            ? 'Voir mes rendez-vous'
-                            : 'Ouvrir la discussion',
+                            ? 'Voir mes rendez-vous'.tr()
+                            : 'Ouvrir la discussion'.tr(),
                         style: GoogleFonts.inter(
                           fontSize: 11,
                           color: AppTheme.gold.withValues(alpha: 0.7),
@@ -300,14 +300,6 @@ class _EmptyState extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.all(28),
-              decoration: BoxDecoration(
-                color: AppTheme.gold.withValues(alpha: 0.08),
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: AppTheme.gold.withValues(alpha: 0.2),
-                  width: 1,
-                ),
-              ),
               child: Icon(
                 Icons.notifications_none_rounded,
                 color: AppTheme.gold.withValues(alpha: 0.6),
@@ -315,8 +307,7 @@ class _EmptyState extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            Text(
-              'Aucune notification',
+            Text( 'Aucune notification'.tr(),
               style: GoogleFonts.playfairDisplay(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
@@ -324,8 +315,7 @@ class _EmptyState extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            Text(
-              'Vos notifications de rendez-vous\net de messages apparaîtront ici.',
+            Text( 'Vos notifications de rendez-vous\net de messages apparaîtront ici.'.tr(),
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
                 color: AppTheme.textMuted,
@@ -391,8 +381,7 @@ class _ErrorState extends StatelessWidget {
                     const Icon(Icons.refresh_rounded,
                         color: AppTheme.textMuted, size: 16),
                     const SizedBox(width: 8),
-                    Text(
-                      'Réessayer',
+                    Text( 'Réessayer'.tr(),
                       style: GoogleFonts.inter(
                         color: AppTheme.textMuted,
                         fontSize: 14,

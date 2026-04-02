@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
@@ -74,8 +75,7 @@ class HomeGlassAppBar extends StatelessWidget implements PreferredSizeWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Connect Mbia',
+                        Text( 'Connect Mbia'.tr(),
                           style: GoogleFonts.playfairDisplay(
                             color: Colors.white,
                             fontSize: 16,
@@ -85,8 +85,7 @@ class HomeGlassAppBar extends StatelessWidget implements PreferredSizeWidget {
                           ),
                         ),
                         const SizedBox(height: 3),
-                        Text(
-                          'CONSULTING',
+                        Text( 'CONSULTING'.tr(),
                           style: GoogleFonts.inter(
                             color: AppTheme.gold,
                             fontSize: 8.5,
@@ -297,7 +296,7 @@ class _HomeBodyState extends State<HomeBody> with TickerProviderStateMixin {
             children: [
               // Headline
               Text(
-                item['title'] as String,
+                (item['title'] as String).tr(),
                 style: GoogleFonts.playfairDisplay(
                   color: Colors.white,
                   fontSize: 36,
@@ -335,7 +334,7 @@ class _HomeBodyState extends State<HomeBody> with TickerProviderStateMixin {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        f,
+                        f.tr(),
                         style: GoogleFonts.inter(
                           color: const Color(0xCCFFFFFF),
                           fontSize: 14,
@@ -377,11 +376,11 @@ class _HomeBodyState extends State<HomeBody> with TickerProviderStateMixin {
   // ── Trust & Authority Band ──────────────────────────────────────────────────
   Widget _buildTrustBand() {
     final metrics = [
-      {'value': '3', 'label': 'Continents\nActifs'},
-      {'value': '20+', 'label': 'Ans\nd\'Expertise'},
-      {'value': '50K+', 'label': 'Vies\nImpactées'},
-      {'value': '15+', 'label': 'Clubs\nPartenaires'},
-      {'value': '8', 'label': 'Pays\nAfricains'},
+      {'value': '3', 'label': 'Continents\nActifs'.tr()},
+      {'value': '20+', 'label': "Ans\nd'Expertise".tr()},
+      {'value': '50K+', 'label': 'Vies\nImpactées'.tr()},
+      {'value': '15+', 'label': 'Clubs\nPartenaires'.tr()},
+      {'value': '8', 'label': 'Pays\nAfricains'.tr()},
     ];
 
     return SizedBox(
@@ -443,8 +442,8 @@ class _HomeBodyState extends State<HomeBody> with TickerProviderStateMixin {
         'accent': const Color(0xFF3B82F6),
         'tag': '01',
         'detail': ServiceDetailScreen(
-          title: 'Affaires Publiques & Lobbying',
-          subtitle: 'Diplomatie & Influence',
+          title: 'Affaires Publiques & Lobbying'.tr(),
+          subtitle: 'Diplomatie & Influence'.tr(),
           description:
               'Naviguez les sphères du pouvoir avec expertise. Nous vous représentons auprès des institutions internationales, gouvernements et organismes de régulation pour faire valoir vos intérêts stratégiques.',
           imageUrl:
@@ -460,8 +459,8 @@ class _HomeBodyState extends State<HomeBody> with TickerProviderStateMixin {
         'accent': AppTheme.gold,
         'tag': '02',
         'detail': ServiceDetailScreen(
-          title: 'Infrastructure & BTP',
-          subtitle: 'Construction & Développement',
+          title: 'Infrastructure & BTP'.tr(),
+          subtitle: 'Construction & Développement'.tr(),
           description:
               'Développez des projets d\'infrastructure de grande envergure. De la conception à la livraison, nous gérons vos projets de construction avec excellence et rigueur.',
           imageUrl:
@@ -477,8 +476,8 @@ class _HomeBodyState extends State<HomeBody> with TickerProviderStateMixin {
         'accent': const Color(0xFF10B981),
         'tag': '03',
         'detail': ServiceDetailScreen(
-          title: 'Capital-Risque & Entrepreneuriat',
-          subtitle: 'Innovation & Croissance',
+          title: 'Capital-Risque & Entrepreneuriat'.tr(),
+          subtitle: 'Innovation & Croissance'.tr(),
           description:
               'Identifiez et financez les startups africaines à fort potentiel. Nous structurons vos investissements en capital-risque et accompagnons les entrepreneurs dans leur développement.',
           imageUrl:
@@ -494,8 +493,8 @@ class _HomeBodyState extends State<HomeBody> with TickerProviderStateMixin {
         'accent': const Color(0xFFAB47BC),
         'tag': '04',
         'detail': ServiceDetailScreen(
-          title: 'Conseil Exécutif',
-          subtitle: 'Stratégie & Leadership',
+          title: 'Conseil Exécutif'.tr(),
+          subtitle: 'Stratégie & Leadership'.tr(),
           description:
               'Bénéficiez d\'un accès direct à l\'expertise de Stéphane Mbia pour vos décisions stratégiques de haut niveau. Un accompagnement exclusif pour dirigeants et organisations d\'élite.',
           imageUrl:
@@ -511,8 +510,8 @@ class _HomeBodyState extends State<HomeBody> with TickerProviderStateMixin {
         'accent': const Color(0xFFF59E0B),
         'tag': '05',
         'detail': ServiceDetailScreen(
-          title: 'Gestion Patrimoine Sportif',
-          subtitle: 'Protection & Valorisation',
+          title: 'Gestion Patrimoine Sportif'.tr(),
+          subtitle: 'Protection & Valorisation'.tr(),
           description:
               'Sécurisez et faites fructifier le patrimoine généré par votre carrière sportive. Planification financière, diversification des actifs et protection du capital sur le long terme.',
           imageUrl:
@@ -528,8 +527,8 @@ class _HomeBodyState extends State<HomeBody> with TickerProviderStateMixin {
         'accent': const Color(0xFF34D399),
         'tag': '06',
         'detail': ServiceDetailScreen(
-          title: 'Fondation & Philanthropie',
-          subtitle: 'Impact & Héritage',
+          title: 'Fondation & Philanthropie'.tr(),
+          subtitle: 'Impact & Héritage'.tr(),
           description:
               'Construisez un héritage durable. Nous structurons et gérons votre fondation pour maximiser l\'impact de vos actions philanthropiques en Afrique et dans le monde.',
           imageUrl:
@@ -551,8 +550,7 @@ class _HomeBodyState extends State<HomeBody> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 6),
-              Text(
-                'Domaines\nd\'Excellence',
+              Text( 'Domaines\nd\'Excellence'.tr(),
                 style: GoogleFonts.playfairDisplay(
                   color: AppTheme.gold,
                   fontSize: 26,
@@ -656,7 +654,7 @@ class _HomeBodyState extends State<HomeBody> with TickerProviderStateMixin {
                   const Spacer(),
                   // Title
                   Text(
-                    card['title'] as String,
+                    (card['title'] as String).tr(),
                     style: GoogleFonts.playfairDisplay(
                       color: Colors.white,
                       fontSize: 13.5,
@@ -727,8 +725,7 @@ class _HomeBodyState extends State<HomeBody> with TickerProviderStateMixin {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'CONSULTATION',
+                  Text( 'CONSULTATION'.tr(),
                     style: GoogleFonts.inter(
                       color: AppTheme.gold.withValues(alpha: 0.85),
                       fontSize: 9,
@@ -737,8 +734,7 @@ class _HomeBodyState extends State<HomeBody> with TickerProviderStateMixin {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    'Prenez rendez-vous\navec Stéphane',
+                  Text( 'Prenez rendez-vous\navec Stéphane'.tr(),
                     style: GoogleFonts.playfairDisplay(
                       color: Colors.white,
                       fontSize: 18,
@@ -767,8 +763,7 @@ class _HomeBodyState extends State<HomeBody> with TickerProviderStateMixin {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            'Réserver',
+                          Text( 'Réserver'.tr(),
                             style: GoogleFonts.inter(
                               color: const Color(0xFF080C18),
                               fontSize: 14,

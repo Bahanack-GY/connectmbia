@@ -16,8 +16,11 @@ export class User {
   @Prop({ required: true, unique: true, lowercase: true, trim: true })
   email: string;
 
-  @Prop({ trim: true })
+  @Prop({ required: true, trim: true })
   phone: string;
+
+  @Prop({ required: true, trim: true })
+  country: string;
 
   @Prop({ required: true })
   password: string;

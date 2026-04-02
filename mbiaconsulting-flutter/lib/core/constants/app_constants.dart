@@ -2,7 +2,9 @@ class AppConstants {
   // ── Set the host for your environment ──────────────────────────────────────
   //
   // Physical device or any device on the same LAN (current machine IP):
-  static const String _host = 'connectmbiabeta-api.mylisapp.online';
+ static const String _host = 'connectmbiabeta-api.mylisapp.online';
+  // static const String _host = '192.168.1.185:3000';
+
   //
   // Android emulator only → uncomment and use 10.0.2.2 instead:
   // static const String _host = '10.0.2.2';

@@ -48,13 +48,15 @@ class AuthProvider extends ChangeNotifier {
     required String name,
     required String email,
     required String password,
-    String? phone,
+    required String phone,
+    required String country,
   }) async {
     final data = await ApiService().post('/auth/signup', {
       'name': name,
       'email': email,
       'password': password,
-      if (phone != null && phone.isNotEmpty) 'phone': phone,
+      'phone': phone,
+      'country': country,
     }) as Map<String, dynamic>;
 
     await _handleAuthResponse(data);

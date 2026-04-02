@@ -15,11 +15,20 @@ export class ConsultationsService {
     private consultationModel: Model<ConsultationDocument>,
   ) {}
 
+  private generateReference(): string {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const random = Math.floor(1000 + Math.random() * 9000);
+    return `SMC-${year}${month}-${random}`;
+  }
+
   async create(
     userId: string,
     dto: CreateConsultationDto,
   ): Promise<ConsultationDocument> {
-    return this.consultationModel.create({ ...dto, userId });
+    const referenceNumber = this.generateReference();
+    return this.consultationModel.create({ ...dto, userId, referenceNumber });
   }
 
   async findByUser(userId: string): Promise<ConsultationDocument[]> {

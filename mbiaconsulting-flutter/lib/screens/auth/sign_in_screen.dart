@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -108,38 +109,13 @@ class _SignInScreenState extends State<SignInScreen>
                       Center(
                         child: Column(
                           children: [
-                            Container(
-                              width: 72,
+                            Image.asset(
+                              'assets/logo-white.png',
                               height: 72,
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.12),
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color:
-                                      AppTheme.goldAccent.withValues(alpha: 0.6),
-                                  width: 2,
-                                ),
-                              ),
-                              child: ClipOval(
-                                child: Image.asset(
-                                  'assets/logo.png',
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                              fit: BoxFit.contain,
                             ),
                             const SizedBox(height: 16),
-                            Text(
-                              'Mbia Consulting',
-                              style: GoogleFonts.inter(
-                                color: Colors.white,
-                                fontSize: 26,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 0.4,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              'Bienvenue — connectez-vous à votre compte',
+                            Text( 'Bienvenue — connectez-vous à votre compte'.tr(),
                               style: GoogleFonts.inter(
                                 color: Colors.white60,
                                 fontSize: 13,
@@ -167,8 +143,7 @@ class _SignInScreenState extends State<SignInScreen>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'Connexion',
+                              Text( 'Connexion'.tr(),
                                 style: GoogleFonts.inter(
                                   fontSize: 22,
                                   fontWeight: FontWeight.w700,
@@ -176,8 +151,7 @@ class _SignInScreenState extends State<SignInScreen>
                                 ),
                               ),
                               const SizedBox(height: 6),
-                              Text(
-                                'Entrez vos identifiants pour continuer',
+                              Text( 'Entrez vos identifiants pour continuer'.tr(),
                                 style: GoogleFonts.inter(
                                   fontSize: 13,
                                   color: AppTheme.textGrey,
@@ -186,25 +160,25 @@ class _SignInScreenState extends State<SignInScreen>
                               const SizedBox(height: 28),
                               _AuthField(
                                 controller: _emailController,
-                                label: 'Adresse e-mail',
-                                hint: 'exemple@email.com',
+                                label: 'Adresse e-mail'.tr(),
+                                hint: 'exemple@email.com'.tr(),
                                 icon: Icons.email_outlined,
                                 keyboardType: TextInputType.emailAddress,
                                 maxLength: 100,
                                 validator: (v) {
                                   if (v == null || v.trim().isEmpty) {
-                                    return 'Veuillez saisir votre e-mail';
+                                    return 'Veuillez saisir votre e-mail'.tr();
                                   }
                                   final emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
-                                  if (!emailRegex.hasMatch(v.trim())) return 'E-mail invalide';
+                                  if (!emailRegex.hasMatch(v.trim())) return 'E-mail invalide'.tr();
                                   return null;
                                 },
                               ),
                               const SizedBox(height: 16),
                               _AuthField(
                                 controller: _passwordController,
-                                label: 'Mot de passe',
-                                hint: '••••••••',
+                                label: 'Mot de passe'.tr(),
+                                hint: '••••••••'.tr(),
                                 icon: Icons.lock_outline,
                                 obscureText: _obscurePassword,
                                 maxLength: 128,
@@ -223,9 +197,9 @@ class _SignInScreenState extends State<SignInScreen>
                                 ),
                                 validator: (v) {
                                   if (v == null || v.isEmpty) {
-                                    return 'Veuillez saisir votre mot de passe';
+                                    return 'Veuillez saisir votre mot de passe'.tr();
                                   }
-                                  if (v.length < 6) return 'Minimum 6 caractères';
+                                  if (v.length < 6) return 'Minimum 6 caractères'.tr();
                                   return null;
                                 },
                               ),
@@ -240,8 +214,7 @@ class _SignInScreenState extends State<SignInScreen>
                                     tapTargetSize:
                                         MaterialTapTargetSize.shrinkWrap,
                                   ),
-                                  child: Text(
-                                    'Mot de passe oublié ?',
+                                  child: Text( 'Mot de passe oublié ?'.tr(),
                                     style: GoogleFonts.inter(
                                       fontSize: 13,
                                       color: AppTheme.primaryBlue,
@@ -275,8 +248,7 @@ class _SignInScreenState extends State<SignInScreen>
                                             strokeWidth: 2.4,
                                           ),
                                         )
-                                      : Text(
-                                          'Se connecter',
+                                      : Text( 'Se connecter'.tr(),
                                           style: GoogleFonts.inter(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w700,
@@ -299,8 +271,7 @@ class _SignInScreenState extends State<SignInScreen>
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 12),
-                            child: Text(
-                              'ou',
+                            child: Text( 'ou'.tr(),
                               style: GoogleFonts.inter(
                                 color: Colors.white54,
                                 fontSize: 13,
@@ -319,8 +290,7 @@ class _SignInScreenState extends State<SignInScreen>
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(
-                              'Pas encore de compte ? ',
+                            Text( 'Pas encore de compte ? '.tr(),
                               style: GoogleFonts.inter(
                                 color: Colors.white70,
                                 fontSize: 14,
@@ -333,8 +303,7 @@ class _SignInScreenState extends State<SignInScreen>
                                   builder: (_) => const SignUpScreen(),
                                 ),
                               ),
-                              child: Text(
-                                "S'inscrire",
+                              child: Text("S'inscrire".tr(),
                                 style: GoogleFonts.inter(
                                   color: AppTheme.goldAccent,
                                   fontSize: 14,

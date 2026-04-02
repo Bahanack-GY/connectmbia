@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
 import 'core/services/api_service.dart';
@@ -10,6 +11,7 @@ import 'screens/main_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
 
   final socketService = SocketService();
   final authProvider = AuthProvider(socketService);
@@ -26,17 +28,22 @@ void main() async {
   await authProvider.init();
 
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider<AuthProvider>.value(value: authProvider),
-        ChangeNotifierProvider<ChatProvider>(
-          create: (_) => ChatProvider(
-            socketService: socketService,
-            getToken: () => authProvider.token,
+    EasyLocalization(
+      supportedLocales: const [Locale('fr'), Locale('en'), Locale('es'), Locale('zh')],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('fr'),
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<AuthProvider>.value(value: authProvider),
+          ChangeNotifierProvider<ChatProvider>(
+            create: (_) => ChatProvider(
+              socketService: socketService,
+              getToken: () => authProvider.token,
+            ),
           ),
-        ),
-      ],
-      child: const MbiaConsultingApp(),
+        ],
+        child: const MbiaConsultingApp(),
+      ),
     ),
   );
 }
@@ -47,9 +54,12 @@ class MbiaConsultingApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Stéphane Mbia Consulting',
+      title: 'Stéphane Mbia Consulting'.tr(),
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       // Auth-aware root: listen to AuthProvider to switch between screens
       home: Consumer<AuthProvider>(
         builder: (_, auth, _) {

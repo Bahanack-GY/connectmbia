@@ -3,10 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 import '../../core/providers/auth_provider.dart';
 import '../../core/theme/app_theme.dart';
 import 'appointments_screen.dart';
+import '../consultation/my_consultations_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -77,8 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Photo de profil',
+            Text( 'Photo de profil'.tr(),
               style: GoogleFonts.playfairDisplay(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
@@ -91,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Expanded(
                   child: _AvatarSourceTile(
                     icon: Icons.photo_library_rounded,
-                    label: 'Galerie',
+                    label: 'Galerie'.tr(),
                     color: const Color(0xFF3B82F6),
                     onTap: () => _pickAvatar(ImageSource.gallery),
                   ),
@@ -100,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Expanded(
                   child: _AvatarSourceTile(
                     icon: Icons.camera_alt_rounded,
-                    label: 'Caméra',
+                    label: 'Caméra'.tr(),
                     color: AppTheme.gold,
                     onTap: () => _pickAvatar(ImageSource.camera),
                   ),
@@ -110,6 +111,65 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  void _showLanguagePicker() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) {
+        final currentLocale = ctx.locale.languageCode;
+        return Container(
+          margin: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+          decoration: BoxDecoration(
+            color: AppTheme.surface,
+            borderRadius: BorderRadius.circular(28),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Langue'.tr(),
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 20),
+              _buildLanguageOption(ctx, 'Français', 'fr', currentLocale),
+              _buildLanguageOption(ctx, 'English', 'en', currentLocale),
+              _buildLanguageOption(ctx, 'Español', 'es', currentLocale),
+              _buildLanguageOption(ctx, '中文', 'zh', currentLocale),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildLanguageOption(
+      BuildContext ctx, String label, String langCode, String currentLocale) {
+    final isSelected = currentLocale == langCode;
+    return ListTile(
+      onTap: () {
+        ctx.setLocale(Locale(langCode));
+        Navigator.pop(ctx);
+      },
+      title: Text(
+        label,
+        style: GoogleFonts.inter(
+          color: isSelected ? AppTheme.gold : Colors.white,
+          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+        ),
+      ),
+      trailing: isSelected
+          ? const Icon(Icons.check_circle_rounded, color: AppTheme.gold)
+          : null,
     );
   }
 
@@ -263,8 +323,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           width: 1.2,
                         ),
                       ),
-                      child: Text(
-                        'Éditer le profil',
+                      child: Text( 'Éditer le profil'.tr(),
                         style: GoogleFonts.inter(
                           color: AppTheme.goldLight,
                           fontWeight: FontWeight.w600,
@@ -281,12 +340,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(height: 28),
 
             // ── Settings Section 1 ───────────────────────────────────────────
-            _SectionLabel('COMPTE'),
+            _SectionLabel('COMPTE'.tr()),
             const SizedBox(height: 10),
             _buildSettingsBlock([
               _ProfileMenuItem(
                 icon: Icons.calendar_month_rounded,
-                label: 'Mes rendez-vous',
+                label: 'Mes rendez-vous'.tr(),
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -296,20 +355,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               _Divider(),
               _ProfileMenuItem(
+                icon: Icons.description_outlined,
+                label: 'Mes Consultations'.tr(),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const MyConsultationsScreen(),
+                  ),
+                ),
+              ),
+              _Divider(),
+              _ProfileMenuItem(
                 icon: Icons.person_outline_rounded,
-                label: 'Informations Personnelles',
+                label: 'Informations Personnelles'.tr(),
                 onTap: () => AppTheme.showComingSoon(context),
               ),
               _Divider(),
               _ProfileMenuItem(
                 icon: Icons.notifications_none_rounded,
-                label: 'Notifications',
+                label: 'Notifications'.tr(),
                 onTap: () => AppTheme.showComingSoon(context),
               ),
               _Divider(),
               _ProfileMenuItem(
                 icon: Icons.shield_outlined,
-                label: 'Sécurité & Confidentialité',
+                label: 'Sécurité & Confidentialité'.tr(),
                 onTap: () => AppTheme.showComingSoon(context),
               ),
             ]),
@@ -317,19 +387,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(height: 20),
 
             // ── Settings Section 2 ───────────────────────────────────────────
-            _SectionLabel('PRÉFÉRENCES'),
+            _SectionLabel('PRÉFÉRENCES'.tr()),
             const SizedBox(height: 10),
             _buildSettingsBlock([
               _ProfileMenuItem(
                 icon: Icons.language_rounded,
-                label: 'Langue',
-                trailingText: 'Français',
-                onTap: () => AppTheme.showComingSoon(context),
+                label: 'Langue'.tr(),
+                trailingText: _getLanguageName(context.locale.languageCode),
+                onTap: _showLanguagePicker,
               ),
               _Divider(),
               _ProfileMenuItem(
                 icon: Icons.help_outline_rounded,
-                label: 'Aide & Support',
+                label: 'Aide & Support'.tr(),
                 onTap: () => AppTheme.showComingSoon(context),
               ),
             ]),
@@ -357,8 +427,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         size: 18,
                       ),
                       const SizedBox(width: 10),
-                      Text(
-                        'Déconnexion',
+                      Text( 'Déconnexion'.tr(),
                         style: GoogleFonts.inter(
                           color: Colors.white,
                           fontSize: 15,
@@ -385,22 +454,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
           backgroundColor: AppTheme.surface,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-          title: Text(
-            'Déconnexion',
+          title: Text( 'Déconnexion'.tr(),
             style: GoogleFonts.playfairDisplay(
               fontWeight: FontWeight.w700,
               color: Colors.white,
             ),
           ),
-          content: Text(
-            'Êtes-vous sûr de vouloir vous déconnecter ?',
+          content: Text( 'Êtes-vous sûr de vouloir vous déconnecter ?'.tr(),
             style: GoogleFonts.inter(color: AppTheme.textMuted, fontSize: 14, height: 1.5),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: Text(
-                'Annuler',
+              child: Text( 'Annuler'.tr(),
                 style: GoogleFonts.inter(color: AppTheme.textMuted),
               ),
             ),
@@ -419,8 +485,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: Colors.red.withValues(alpha: 0.3)),
                 ),
-                child: Text(
-                  'Déconnecter',
+                child: Text( 'Déconnecter'.tr(),
                   style: GoogleFonts.inter(
                     color: Colors.redAccent,
                     fontWeight: FontWeight.w600,
@@ -445,6 +510,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       child: Column(children: children),
     );
+  }
+
+  String _getLanguageName(String code) {
+    switch (code) {
+      case 'en':
+        return 'English';
+      case 'es':
+        return 'Español';
+      case 'zh':
+        return '中文';
+      case 'fr':
+      default:
+        return 'Français';
+    }
   }
 }
 

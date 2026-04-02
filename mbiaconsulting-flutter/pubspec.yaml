@@ -29,6 +29,14 @@ dependencies:
   # Image picker (profile picture)
   image_picker: ^1.1.2
 
+  # International phone field
+  intl_phone_field: ^3.2.0
+  easy_localization: ^3.0.8
+
+  # PDF generation & sharing
+  pdf: ^3.11.1
+  printing: ^5.13.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -39,6 +47,9 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/translations/
+    - assets/logo-white.png
+    - assets/logo-connectmbia.png
     - assets/logo.png
     - assets/img1.jpeg
     - assets/img2.jpeg
@@ -47,5 +58,5 @@ flutter:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/logo.png"
+  image_path: "assets/logo-connectmbia.png"
   min_sdk_android: 21

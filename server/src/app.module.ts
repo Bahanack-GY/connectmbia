@@ -24,7 +24,7 @@ import { NotificationsModule } from './notifications/notifications.module';
         'build',
         'web',
       ),
-      exclude: ['/api/(.*)'],
+      exclude: ['/api/{*path}'],
     }),
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRootAsync({

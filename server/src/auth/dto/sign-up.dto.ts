@@ -8,9 +8,13 @@ export class SignUpDto {
   @IsEmail()
   email: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
-  phone?: string;
+  phone: string;
+
+  @IsNotEmpty()
+  @IsString()
+  country: string;
 
   @IsNotEmpty()
   @MinLength(6)

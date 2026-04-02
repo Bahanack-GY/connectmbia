@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -148,8 +149,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
                 if (chat.messages.isEmpty) {
                   return Center(
-                    child: Text(
-                      'Envoyez un message pour démarrer\nla conversation.',
+                    child: Text( 'Envoyez un message pour démarrer\nla conversation.'.tr(),
                       textAlign: TextAlign.center,
                       style: GoogleFonts.inter(color: AppTheme.textMuted),
                     ),
@@ -207,7 +207,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   style: GoogleFonts.inter(color: Colors.white, fontSize: 14),
                   inputFormatters: [LengthLimitingTextInputFormatter(2000)],
                   decoration: InputDecoration(
-                    hintText: 'Message...',
+                    hintText: 'Message...'.tr(),
                     hintStyle: GoogleFonts.inter(color: AppTheme.textMuted),
                     border: InputBorder.none,
                     isDense: true,
@@ -256,19 +256,19 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 _AttachmentOption(
                   icon: Icons.image,
                   color: Colors.purple,
-                  label: 'Galerie',
+                  label: 'Galerie'.tr(),
                   onTap: () => Navigator.pop(context),
                 ),
                 _AttachmentOption(
                   icon: Icons.camera_alt,
                   color: Colors.pink,
-                  label: 'Caméra',
+                  label: 'Caméra'.tr(),
                   onTap: () => Navigator.pop(context),
                 ),
                 _AttachmentOption(
                   icon: Icons.insert_drive_file,
                   color: Colors.indigo,
-                  label: 'Document',
+                  label: 'Document'.tr(),
                   onTap: () => Navigator.pop(context),
                 ),
               ],
@@ -280,7 +280,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 _AttachmentOption(
                   icon: Icons.location_on,
                   color: Colors.green,
-                  label: 'Localisation',
+                  label: 'Localisation'.tr(),
                   onTap: () => Navigator.pop(context),
                 ),
                 const SizedBox(width: 60),

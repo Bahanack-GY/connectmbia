@@ -3,6 +3,7 @@ class UserModel {
   final String name;
   final String email;
   final String? phone;
+  final String? country;
   final String role;
   final String? avatar;
 
@@ -11,6 +12,7 @@ class UserModel {
     required this.name,
     required this.email,
     this.phone,
+    this.country,
     required this.role,
     this.avatar,
   });
@@ -20,6 +22,7 @@ class UserModel {
         name: json['name']?.toString() ?? '',
         email: json['email']?.toString() ?? '',
         phone: json['phone']?.toString(),
+        country: json['country']?.toString(),
         role: json['role']?.toString() ?? 'user',
         avatar: json['avatar']?.toString(),
       );
@@ -29,6 +32,7 @@ class UserModel {
         'name': name,
         'email': email,
         'phone': phone,
+        'country': country,
         'role': role,
         'avatar': avatar,
       };

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -151,8 +152,7 @@ class ServiceDetailScreen extends StatelessWidget {
         children: [
           const SizedBox(height: 8),
           // Section label
-          Text(
-            'À PROPOS DE L\'OFFRE',
+          Text( 'À PROPOS DE L\'OFFRE'.tr(),
             style: GoogleFonts.inter(
               color: AppTheme.textMuted.withValues(alpha: 0.7),
               fontSize: 8.5,
@@ -179,7 +179,7 @@ class ServiceDetailScreen extends StatelessWidget {
               ],
             ),
             child: Text(
-              description,
+              description.tr(),
               style: GoogleFonts.inter(
                 color: AppTheme.textMuted,
                 fontSize: 15,
@@ -198,17 +198,16 @@ class ServiceDetailScreen extends StatelessWidget {
 
   Widget _buildKeyPoints() {
     final points = [
-      'Expertise internationale reconnue',
-      'Accompagnement personnalisé',
-      'Réseau de haut niveau',
-      'Résultats mesurables et durables',
+      'Expertise internationale reconnue'.tr(),
+      'Accompagnement personnalisé'.tr(),
+      'Réseau de haut niveau'.tr(),
+      'Résultats mesurables et durables'.tr(),
     ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'POINTS CLÉS',
+        Text( 'POINTS CLÉS'.tr(),
           style: GoogleFonts.inter(
             color: AppTheme.textMuted.withValues(alpha: 0.7),
             fontSize: 8.5,
@@ -285,8 +284,7 @@ class ServiceDetailScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Prendre rendez-vous',
+                  Text( 'Prendre rendez-vous'.tr(),
                     style: GoogleFonts.inter(
                       color: const Color(0xFF080C18),
                       fontSize: 16,

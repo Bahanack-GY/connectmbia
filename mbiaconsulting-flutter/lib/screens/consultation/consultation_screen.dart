@@ -1,10 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/services/api_service.dart';
 import '../../core/providers/auth_provider.dart';
 import '../../core/providers/chat_provider.dart';
+import '../../core/utils/currency_formatter.dart';
 import '../../widgets/modern_app_bar.dart';
+import 'payment_confirmation_screen.dart';
 
 class ConsultationScreen extends StatelessWidget {
   final String? preselectedServiceId;
@@ -15,7 +18,7 @@ class ConsultationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ModernAppBar(
-        title: 'Nouvelle Consultation',
+        title: 'Nouvelle Consultation'.tr(),
         leading: ModernAppBarAction(
           icon: Icons.arrow_back_ios_new,
           onPressed: () => Navigator.of(context).pop(),
@@ -79,44 +82,47 @@ class _ConsultationBodyState extends State<ConsultationBody> {
   String? _impactArea;
 
   // ── Service catalog ────────────────────────────────────────────────────
-  final List<Map<String, dynamic>> _services = [
-    {
-      'id': 'foot',
-      'title': 'Football',
-      'description': 'Gestion de carrière & conseils',
-      'price': '100,000 FCFA',
-      'accent': const Color(0xFF1565C0),
-      'image':
-          'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=600',
-    },
-    {
-      'id': 'real_estate',
-      'title': 'Immobilier',
-      'description': 'Investissement & Construction',
-      'price': '150,000 FCFA',
-      'accent': const Color(0xFFD4AF37),
-      'image':
-          'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=600',
-    },
-    {
-      'id': 'business',
-      'title': 'Business',
-      'description': 'Stratégie & Développement',
-      'price': '200,000 FCFA',
-      'accent': const Color(0xFF7B1FA2),
-      'image':
-          'https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&q=80&w=600',
-    },
-    {
-      'id': 'charity',
-      'title': 'Philanthropie',
-      'description': 'Actions sociales & Fondation',
-      'price': 'Gratuit',
-      'accent': const Color(0xFF2E7D32),
-      'image':
-          'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&q=80&w=600',
-    },
-  ];
+  List<Map<String, dynamic>> get _services {
+    final userCountry = context.read<AuthProvider>().user?.country;
+    return [
+      {
+        'id': 'foot',
+        'title': 'Football',
+        'description': 'Gestion de carrière & conseils',
+        'price': CurrencyFormatter.formatPrice(100000, userCountry),
+        'accent': const Color(0xFF1565C0),
+        'image':
+            'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=600',
+      },
+      {
+        'id': 'real_estate',
+        'title': 'Immobilier',
+        'description': 'Investissement & Construction',
+        'price': CurrencyFormatter.formatPrice(150000, userCountry),
+        'accent': const Color(0xFFD4AF37),
+        'image':
+            'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=600',
+      },
+      {
+        'id': 'business',
+        'title': 'Business',
+        'description': 'Stratégie & Développement',
+        'price': CurrencyFormatter.formatPrice(200000, userCountry),
+        'accent': const Color(0xFF7B1FA2),
+        'image':
+            'https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&q=80&w=600',
+      },
+      {
+        'id': 'charity',
+        'title': 'Philanthropie',
+        'description': 'Actions sociales & Fondation',
+        'price': CurrencyFormatter.formatPrice(0, userCountry),
+        'accent': const Color(0xFF2E7D32),
+        'image':
+            'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&q=80&w=600',
+      },
+    ];
+  }
 
   // ── Per-service step flows ─────────────────────────────────────────────
   static const Map<String, List<Map<String, String>>> _serviceFlows = {
@@ -229,19 +235,19 @@ class _ConsultationBodyState extends State<ConsultationBody> {
       _activeSteps.isNotEmpty && _activeSteps.last['id'] == 'payment';
 
   String get _continueButtonLabel {
-    if (_flowStepIndex < 0) return 'SUIVANT';
+    if (_flowStepIndex < 0) return 'SUIVANT'.tr();
     final isLastStep = _flowStepIndex == _totalSteps - 1;
-    if (!isLastStep) return 'SUIVANT';
+    if (!isLastStep) return 'SUIVANT'.tr();
     final stepId = _activeSteps[_flowStepIndex]['id']!;
     switch (stepId) {
       case 'payment':
-        return 'PAYER & FINALISER';
+        return 'PAYER & FINALISER'.tr();
       case 'submission':
-        return 'SOUMETTRE LE DOSSIER';
+        return 'SOUMETTRE LE DOSSIER'.tr();
       case 'confirmation':
-        return 'CONFIRMER & ENVOYER';
+        return 'CONFIRMER & ENVOYER'.tr();
       default:
-        return 'FINALISER';
+        return 'FINALISER'.tr();
     }
   }
 
@@ -395,8 +401,7 @@ class _ConsultationBodyState extends State<ConsultationBody> {
                             color: Colors.white,
                             size: 18,
                             key: ValueKey('check'))
-                        : Text(
-                            '${stepIndex + 1}',
+                        : Text( '${stepIndex + 1}'.tr(),
                             key: ValueKey('num_$stepIndex'),
                             style: TextStyle(
                               color: isCurrent
@@ -483,7 +488,7 @@ class _ConsultationBodyState extends State<ConsultationBody> {
                     borderRadius: BorderRadius.circular(12)),
                 side: BorderSide(color: AppTheme.gold.withValues(alpha: 0.5)),
               ),
-              child: const Text('RETOUR'),
+              child: Text('RETOUR'.tr()),
             ),
           ),
           const SizedBox(width: 16),
@@ -558,74 +563,74 @@ class _ConsultationBodyState extends State<ConsultationBody> {
             _emailController.text.isEmpty ||
             _townController.text.isEmpty ||
             _countryController.text.isEmpty) {
-          return 'Veuillez remplir toutes vos informations.';
+          return 'Veuillez remplir toutes vos informations.'.tr();
         }
         final emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
         if (!emailRegex.hasMatch(_emailController.text.trim())) {
-          return 'Veuillez saisir une adresse e-mail valide.';
+          return 'Veuillez saisir une adresse e-mail valide.'.tr();
         }
         return null;
 
       case 'payment':
         if (_selectedPaymentMethod == null) {
-          return 'Veuillez choisir un mode de paiement.';
+          return 'Veuillez choisir un mode de paiement.'.tr();
         }
         return null;
 
       case 'project_investor':
         if (_investmentInterestController.text.trim().length < 20) {
-          return 'Veuillez décrire votre projet (min. 20 caractères).';
+          return 'Veuillez décrire votre projet (min. 20 caractères).'.tr();
         }
         if (_budgetRange == null) {
-          return 'Veuillez sélectionner une tranche de budget.';
+          return 'Veuillez sélectionner une tranche de budget.'.tr();
         }
         if (_projectType == null) {
-          return 'Veuillez sélectionner un type de projet.';
+          return 'Veuillez sélectionner un type de projet.'.tr();
         }
         return null;
 
       case 'engagement':
         if (!_ndaAccepted) {
-          return "Veuillez accepter l'accord de confidentialité.";
+          return 'Veuillez accepter l\'accord de confidentialité.'.tr();
         }
         return null;
 
       case 'qualification':
         if (_companyNameController.text.trim().isEmpty) {
-          return "Veuillez saisir le nom de l'entreprise.";
+          return 'Veuillez saisir le nom de l\'entreprise.'.tr();
         }
         if (_companySize == null) {
-          return "Veuillez sélectionner la taille de l'entreprise.";
+          return 'Veuillez sélectionner la taille de l\'entreprise.'.tr();
         }
         if (_sectorController.text.trim().isEmpty) {
-          return "Veuillez indiquer le secteur d'activité.";
+          return 'Veuillez indiquer le secteur d\'activité.'.tr();
         }
         if (_stakesController.text.trim().length < 20) {
-          return 'Veuillez décrire vos enjeux (min. 20 caractères).';
+          return 'Veuillez décrire vos enjeux (min. 20 caractères).'.tr();
         }
         if (_businessBudgetRange == null) {
-          return 'Veuillez sélectionner une tranche de budget.';
+          return 'Veuillez sélectionner une tranche de budget.'.tr();
         }
         return null;
 
       case 'dossier':
         if (_playerNameController.text.trim().isEmpty) {
-          return 'Veuillez saisir le nom du joueur.';
+          return 'Veuillez saisir le nom du joueur.'.tr();
         }
         if (_currentClubController.text.trim().isEmpty) {
-          return 'Veuillez indiquer le club actuel.';
+          return 'Veuillez indiquer le club actuel.'.tr();
         }
         if (_playerPosition == null) {
-          return 'Veuillez sélectionner un poste.';
+          return 'Veuillez sélectionner un poste.'.tr();
         }
         return null;
 
       case 'project_charity':
         if (_charityProjectController.text.trim().length < 20) {
-          return 'Veuillez décrire votre projet (min. 20 caractères).';
+          return 'Veuillez décrire votre projet (min. 20 caractères).'.tr();
         }
         if (_impactArea == null) {
-          return "Veuillez sélectionner un domaine d'impact.";
+          return 'Veuillez sélectionner un domaine d\'impact.'.tr();
         }
         return null;
 
@@ -675,13 +680,16 @@ class _ConsultationBodyState extends State<ConsultationBody> {
       }
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Demande envoyée avec succès !'),
-            backgroundColor: Colors.green,
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (_) => PaymentConfirmationScreen(
+              referenceNumber: result['referenceNumber']?.toString() ?? result['_id']?.toString() ?? '',
+              serviceTitle: _getServiceTitle(_selectedService),
+              clientName: _nameController.text.trim(),
+              paymentMethod: _flowHasPayment ? _selectedPaymentMethod : null,
+            ),
           ),
         );
-        Navigator.of(context).pop();
       }
     } catch (e) {
       if (mounted) _showError(e.toString());
@@ -913,14 +921,14 @@ class _ConsultationBodyState extends State<ConsultationBody> {
     return [
       _buildStyledTextField(
         controller: _nameController,
-        label: 'Nom Complet / Entreprise',
+        label: 'Nom Complet / Entreprise'.tr(),
         prefixIcon: Icons.person_outline,
         maxLength: 100,
       ),
       const SizedBox(height: 16),
       _buildStyledTextField(
         controller: _phoneController,
-        label: 'Numéro de Téléphone',
+        label: 'Numéro de Téléphone'.tr(),
         prefixIcon: Icons.phone_outlined,
         keyboardType: TextInputType.phone,
         maxLength: 20,
@@ -928,7 +936,7 @@ class _ConsultationBodyState extends State<ConsultationBody> {
       const SizedBox(height: 16),
       _buildStyledTextField(
         controller: _emailController,
-        label: 'Adresse Email',
+        label: 'Adresse Email'.tr(),
         prefixIcon: Icons.email_outlined,
         keyboardType: TextInputType.emailAddress,
         maxLength: 100,
@@ -939,7 +947,7 @@ class _ConsultationBodyState extends State<ConsultationBody> {
           Expanded(
             child: _buildStyledTextField(
               controller: _townController,
-              label: 'Ville',
+              label: 'Ville'.tr(),
               prefixIcon: Icons.location_city,
               maxLength: 60,
             ),
@@ -948,7 +956,7 @@ class _ConsultationBodyState extends State<ConsultationBody> {
           Expanded(
             child: _buildStyledTextField(
               controller: _countryController,
-              label: 'Pays',
+              label: 'Pays'.tr(),
               prefixIcon: Icons.flag_outlined,
               maxLength: 60,
             ),
@@ -1095,7 +1103,7 @@ class _ConsultationBodyState extends State<ConsultationBody> {
         const SizedBox(height: 24),
         _buildUploadSection(
           icon: Icons.shield_outlined,
-          title: "Vérification d'Identité (KYC)",
+          title: "Vérification d'Identité (KYC)".tr(),
           description:
               "Conformément à nos procédures, une pièce d'identité est requise pour valider votre dossier.",
           buttonLabel: 'Télécharger CNI / Passeport',
@@ -1118,8 +1126,7 @@ class _ConsultationBodyState extends State<ConsultationBody> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Total à payer',
+              Text('Total à payer'.tr(),
                 style: TextStyle(fontSize: 16, color: AppTheme.textMuted),
               ),
               Text(
@@ -1174,23 +1181,21 @@ class _ConsultationBodyState extends State<ConsultationBody> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Décrivez votre intérêt d'investissement",
+        Text("Décrivez votre intérêt d'investissement".tr(),
           style: TextStyle(
               fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         const SizedBox(height: 16),
         _buildStyledTextField(
           controller: _investmentInterestController,
-          label: "Description du projet",
-          hintText:
-              'Nature du projet, objectifs, localisation souhaitée...',
+          label: 'Description du projet'.tr(),
+          hintText: 'Nature du projet, objectifs, localisation souhaitée...'.tr(),
           maxLines: 4,
           maxLength: 1000,
         ),
         const SizedBox(height: 16),
         _buildDropdownField(
-          label: 'Budget estimé',
+          label: 'Budget estimé'.tr(),
           value: _budgetRange,
           items: _budgetRanges,
           onChanged: (v) => setState(() => _budgetRange = v),
@@ -1198,7 +1203,7 @@ class _ConsultationBodyState extends State<ConsultationBody> {
         ),
         const SizedBox(height: 16),
         _buildDropdownField(
-          label: 'Type de projet',
+          label: 'Type de projet'.tr(),
           value: _projectType,
           items: _projectTypes,
           onChanged: (v) => setState(() => _projectType = v),
@@ -1217,7 +1222,7 @@ class _ConsultationBodyState extends State<ConsultationBody> {
         const SizedBox(height: 24),
         _buildUploadSection(
           icon: Icons.shield_outlined,
-          title: "Vérification d'Identité (KYC)",
+          title: "Vérification d'Identité (KYC)".tr(),
           description:
               "Conformément à nos procédures, une pièce d'identité est requise pour valider votre dossier.",
           buttonLabel: 'Télécharger CNI / Passeport',
@@ -1225,7 +1230,7 @@ class _ConsultationBodyState extends State<ConsultationBody> {
         const SizedBox(height: 16),
         _buildUploadSection(
           icon: Icons.account_balance_wallet_outlined,
-          title: 'Preuve de fonds',
+          title: 'Preuve de fonds'.tr(),
           description:
               "Un justificatif de capacité financière est requis pour les investissements.",
           buttonLabel: 'Télécharger justificatif',
@@ -1240,8 +1245,7 @@ class _ConsultationBodyState extends State<ConsultationBody> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Accord de Confidentialité',
+        Text('Accord de Confidentialité'.tr(),
           style: TextStyle(
               fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
         ),
@@ -1254,8 +1258,8 @@ class _ConsultationBodyState extends State<ConsultationBody> {
             border:
                 Border.all(color: AppTheme.gold.withValues(alpha: 0.3)),
           ),
-          child: const Text(
-            'En soumettant cette demande, vous reconnaissez que toutes les informations '
+          child: Text(
+            'En soumettant cette demande, vous reconnaissez que toutes les informations '.tr() +
             'échangées dans le cadre de cette consultation sont strictement confidentielles. '
             'Vous vous engagez à ne pas divulguer, reproduire ou utiliser ces informations '
             'à des fins autres que celles convenues avec MBIA Consulting.\n\n'
@@ -1284,9 +1288,9 @@ class _ConsultationBodyState extends State<ConsultationBody> {
                 ),
               ),
               const SizedBox(width: 12),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  "J'accepte les termes de l'accord de confidentialité "
+                  "J'accepte les termes de l'accord de confidentialité ".tr() +
                   "et je souhaite signifier mon intérêt pour ce projet.",
                   style: TextStyle(
                       color: Colors.white, fontSize: 14, height: 1.4),
@@ -1302,13 +1306,12 @@ class _ConsultationBodyState extends State<ConsultationBody> {
             color: AppTheme.gold.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: const Row(
+          child: Row(
             children: [
-              Icon(Icons.info_outline, color: AppTheme.gold, size: 18),
-              SizedBox(width: 8),
+              const Icon(Icons.info_outline, color: AppTheme.gold, size: 18),
+              const SizedBox(width: 8),
               Expanded(
-                child: Text(
-                  'La signature électronique du NDA complet sera disponible prochainement.',
+                child: Text('La signature électronique du NDA complet sera disponible prochainement.'.tr(),
                   style:
                       TextStyle(color: AppTheme.goldLight, fontSize: 12),
                 ),
@@ -1326,21 +1329,20 @@ class _ConsultationBodyState extends State<ConsultationBody> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Qualifiez votre entreprise",
+        Text('Qualifiez votre entreprise'.tr(),
           style: TextStyle(
               fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         const SizedBox(height: 16),
         _buildStyledTextField(
           controller: _companyNameController,
-          label: "Nom de l'entreprise",
+          label: "Nom de l'entreprise".tr(),
           prefixIcon: Icons.business_outlined,
           maxLength: 100,
         ),
         const SizedBox(height: 16),
         _buildDropdownField(
-          label: "Taille de l'entreprise",
+          label: "Taille de l'entreprise".tr(),
           value: _companySize,
           items: _companySizes,
           onChanged: (v) => setState(() => _companySize = v),
@@ -1349,22 +1351,21 @@ class _ConsultationBodyState extends State<ConsultationBody> {
         const SizedBox(height: 16),
         _buildStyledTextField(
           controller: _sectorController,
-          label: "Secteur d'activité",
+          label: "Secteur d'activité".tr(),
           prefixIcon: Icons.category_outlined,
           maxLength: 100,
         ),
         const SizedBox(height: 16),
         _buildStyledTextField(
           controller: _stakesController,
-          label: 'Enjeux & Besoins',
-          hintText:
-              'Décrivez vos enjeux stratégiques et le contexte de votre demande...',
+          label: 'Enjeux & Besoins'.tr(),
+          hintText: 'Décrivez vos enjeux stratégiques et le contexte de votre demande...'.tr(),
           maxLines: 4,
           maxLength: 1000,
         ),
         const SizedBox(height: 16),
         _buildDropdownField(
-          label: 'Budget estimé (Provision)',
+          label: 'Budget estimé (Provision)'.tr(),
           value: _businessBudgetRange,
           items: _budgetRanges,
           onChanged: (v) => setState(() => _businessBudgetRange = v),
@@ -1380,8 +1381,7 @@ class _ConsultationBodyState extends State<ConsultationBody> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Récapitulatif de votre demande',
+        Text('Récapitulatif de votre demande'.tr(),
           style: TextStyle(
               fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
         ),
@@ -1399,15 +1399,14 @@ class _ConsultationBodyState extends State<ConsultationBody> {
             color: AppTheme.gold.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: const Row(
+          child: Row(
             children: [
-              Icon(Icons.info_outline, color: AppTheme.gold, size: 18),
-              SizedBox(width: 8),
+              const Icon(Icons.info_outline, color: AppTheme.gold, size: 18),
+              const SizedBox(width: 8),
               Expanded(
-                child: Text(
-                  'Vérifiez vos informations avant de procéder au paiement.',
+                child: Text('Vérifiez vos informations avant de procéder au paiement.'.tr(),
                   style:
-                      TextStyle(color: AppTheme.goldLight, fontSize: 12),
+                      const TextStyle(color: AppTheme.goldLight, fontSize: 12),
                 ),
               ),
             ],
@@ -1423,28 +1422,27 @@ class _ConsultationBodyState extends State<ConsultationBody> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Dossier d'admission",
+        Text("Dossier d'admission".tr(),
           style: TextStyle(
               fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         const SizedBox(height: 16),
         _buildStyledTextField(
           controller: _playerNameController,
-          label: 'Nom du joueur',
+          label: 'Nom du joueur'.tr(),
           prefixIcon: Icons.person_outline,
           maxLength: 100,
         ),
         const SizedBox(height: 16),
         _buildStyledTextField(
           controller: _currentClubController,
-          label: 'Club actuel',
+          label: 'Club actuel'.tr(),
           prefixIcon: Icons.sports_soccer_outlined,
           maxLength: 100,
         ),
         const SizedBox(height: 16),
         _buildDropdownField(
-          label: 'Poste',
+          label: 'Poste'.tr(),
           value: _playerPosition,
           items: _playerPositions,
           onChanged: (v) => setState(() => _playerPosition = v),
@@ -1453,7 +1451,7 @@ class _ConsultationBodyState extends State<ConsultationBody> {
         const SizedBox(height: 16),
         _buildStyledTextField(
           controller: _transfermarktController,
-          label: 'Lien Transfermarkt',
+          label: 'Lien Transfermarkt'.tr(),
           prefixIcon: Icons.link_outlined,
           keyboardType: TextInputType.url,
           maxLength: 500,
@@ -1461,7 +1459,7 @@ class _ConsultationBodyState extends State<ConsultationBody> {
         const SizedBox(height: 16),
         _buildStyledTextField(
           controller: _highlightVideoController,
-          label: 'Lien vidéo highlights',
+          label: 'Lien vidéo highlights'.tr(),
           prefixIcon: Icons.videocam_outlined,
           keyboardType: TextInputType.url,
           maxLength: 500,
@@ -1469,8 +1467,8 @@ class _ConsultationBodyState extends State<ConsultationBody> {
         const SizedBox(height: 16),
         _buildStyledTextField(
           controller: _contractHistoryController,
-          label: 'Historique contractuel',
-          hintText: 'Clubs précédents, durées, types de contrats...',
+          label: 'Historique contractuel'.tr(),
+          hintText: 'Clubs précédents, durées, types de contrats...'.tr(),
           maxLines: 3,
           maxLength: 1000,
         ),
@@ -1484,8 +1482,7 @@ class _ConsultationBodyState extends State<ConsultationBody> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Récapitulatif du dossier',
+        Text('Récapitulatif du dossier'.tr(),
           style: TextStyle(
               fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
         ),
@@ -1507,25 +1504,23 @@ class _ConsultationBodyState extends State<ConsultationBody> {
             border:
                 Border.all(color: AppTheme.gold.withValues(alpha: 0.2)),
           ),
-          child: const Column(
+          child: Column(
             children: [
-              Icon(Icons.hourglass_top_rounded,
+              const Icon(Icons.hourglass_top_rounded,
                   color: AppTheme.gold, size: 32),
-              SizedBox(height: 12),
-              Text(
-                'Votre dossier sera analysé par notre équipe',
+              const SizedBox(height: 12),
+              Text('Votre dossier sera analysé par notre équipe'.tr(),
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                     color: AppTheme.goldLight,
                     fontWeight: FontWeight.w600,
                     fontSize: 16),
               ),
-              SizedBox(height: 8),
-              Text(
-                'Vous recevrez une réponse dans les meilleurs délais via la messagerie.',
+              const SizedBox(height: 8),
+              Text('Vous recevrez une réponse dans les meilleurs délais via la messagerie.'.tr(),
                 textAlign: TextAlign.center,
                 style:
-                    TextStyle(color: AppTheme.textMuted, fontSize: 13),
+                    const TextStyle(color: AppTheme.textMuted, fontSize: 13),
               ),
             ],
           ),
@@ -1540,23 +1535,21 @@ class _ConsultationBodyState extends State<ConsultationBody> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Décrivez votre projet philanthropique',
+        Text('Décrivez votre projet philanthropique'.tr(),
           style: TextStyle(
               fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         const SizedBox(height: 16),
         _buildStyledTextField(
           controller: _charityProjectController,
-          label: 'Description du projet',
-          hintText:
-              'Objectifs, bénéficiaires, zone géographique, impact attendu...',
+          label: 'Description du projet'.tr(),
+          hintText: 'Objectifs, bénéficiaires, zone géographique, impact attendu...'.tr(),
           maxLines: 5,
           maxLength: 1000,
         ),
         const SizedBox(height: 16),
         _buildDropdownField(
-          label: "Domaine d'impact",
+          label: "Domaine d'impact".tr(),
           value: _impactArea,
           items: _impactAreas,
           onChanged: (v) => setState(() => _impactArea = v),
@@ -1572,8 +1565,7 @@ class _ConsultationBodyState extends State<ConsultationBody> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Récapitulatif',
+        Text('Récapitulatif'.tr(),
           style: TextStyle(
               fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
         ),
@@ -1590,25 +1582,23 @@ class _ConsultationBodyState extends State<ConsultationBody> {
             border:
                 Border.all(color: AppTheme.gold.withValues(alpha: 0.2)),
           ),
-          child: const Column(
+          child: Column(
             children: [
-              Icon(Icons.volunteer_activism_rounded,
+              const Icon(Icons.volunteer_activism_rounded,
                   color: AppTheme.gold, size: 32),
-              SizedBox(height: 12),
-              Text(
-                'Merci pour votre engagement !',
+              const SizedBox(height: 12),
+              Text('Merci pour votre engagement !'.tr(),
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                     color: AppTheme.goldLight,
                     fontWeight: FontWeight.w600,
                     fontSize: 16),
               ),
-              SizedBox(height: 8),
-              Text(
-                'Notre équipe vous contactera pour discuter des prochaines étapes de votre projet philanthropique.',
+              const SizedBox(height: 8),
+              Text('Notre équipe vous contactera pour discuter des prochaines étapes de votre projet philanthropique.'.tr(),
                 textAlign: TextAlign.center,
                 style:
-                    TextStyle(color: AppTheme.textMuted, fontSize: 13),
+                    const TextStyle(color: AppTheme.textMuted, fontSize: 13),
               ),
             ],
           ),

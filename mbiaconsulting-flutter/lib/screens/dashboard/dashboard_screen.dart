@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -6,14 +7,13 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Tableau de bord Client")),
+      appBar: AppBar(title: Text('Tableau de bord Client'.tr())),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Bienvenue, M. Mbia",
+            Text( 'Bienvenue, M. Mbia'.tr(),
               style: Theme.of(context).textTheme.displayMedium,
             ),
             const SizedBox(height: 24),
@@ -21,7 +21,7 @@ class DashboardScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: _StatCard(
-                    title: "Messages",
+                    title: 'Messages'.tr(),
                     count: "12",
                     color: Colors.blue,
                   ),
@@ -29,7 +29,7 @@ class DashboardScreen extends StatelessWidget {
                 const SizedBox(width: 16),
                 Expanded(
                   child: _StatCard(
-                    title: "Demandes",
+                    title: 'Demandes'.tr(),
                     count: "5",
                     color: Colors.amber,
                   ),
@@ -37,7 +37,7 @@ class DashboardScreen extends StatelessWidget {
                 const SizedBox(width: 16),
                 Expanded(
                   child: _StatCard(
-                    title: "Agenda",
+                    title: 'Agenda'.tr(),
                     count: "3",
                     color: Colors.green,
                   ),
@@ -45,24 +45,23 @@ class DashboardScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 32),
-            Text(
-              "Prochains Rendez-vous",
+            Text( 'Prochains Rendez-vous'.tr(),
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            const Card(
+            Card(
               child: ListTile(
-                leading: CircleAvatar(child: Text("JD")),
-                title: Text("Jean Dupont - BTP"),
-                subtitle: Text("04 Fév, 14:00 - Google Meet"),
-                trailing: Chip(label: Text("Payé")),
+                leading: CircleAvatar(child: Text('JD'.tr())),
+                title: Text('Jean Dupont - BTP'.tr()),
+                subtitle: Text('04 Fév, 14:00 - Google Meet'.tr()),
+                trailing: Chip(label: Text('Payé'.tr())),
               ),
             ),
-            const Card(
+            Card(
               child: ListTile(
-                leading: CircleAvatar(child: Text("AK")),
-                title: Text("Académique Foot K."),
-                subtitle: Text("05 Fév, 10:00 - Yaoundé"),
-                trailing: Chip(label: Text("En attente")),
+                leading: CircleAvatar(child: Text('AK'.tr())),
+                title: Text('Académique Foot K.'.tr()),
+                subtitle: Text('05 Fév, 10:00 - Yaoundé'.tr()),
+                trailing: Chip(label: Text('En attente'.tr())),
               ),
             ),
           ],

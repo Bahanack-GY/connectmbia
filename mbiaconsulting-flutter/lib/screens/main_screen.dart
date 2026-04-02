@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../core/theme/app_theme.dart';
 import 'home/home_screen.dart';
@@ -26,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
           ? const HomeGlassAppBar()
           : _currentIndex == 2
               ? ModernAppBar(
-                  title: 'Profil',
+                  title: 'Profil'.tr(),
                   actions: [
                     ModernAppBarAction(
                       icon: Icons.notifications_none,

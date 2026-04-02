@@ -57,6 +57,9 @@ export class Consultation {
   @Prop({ enum: PaymentMethod })
   paymentMethod: PaymentMethod;
 
+  @Prop({ unique: true, sparse: true })
+  referenceNumber: string;
+
   @Prop({ default: ConsultationStatus.PENDING, enum: ConsultationStatus })
   status: ConsultationStatus;
 

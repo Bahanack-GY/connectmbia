@@ -32,6 +32,7 @@ async function bootstrap() {
     origin: [
       'https://connectmbiabeta.mylisapp.online',
       'https://connectmbiabeta-admin.mylisapp.online',
+      'http://localhost:32949'
     ],
     credentials: true,
   });
